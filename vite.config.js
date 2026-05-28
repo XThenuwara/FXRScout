@@ -14,7 +14,7 @@ export default defineConfig(({ command }) => ({
       "@": path.resolve(__dirname, "./src"),
     },
   },
-  base: command === 'build' ? '/FXRSentry/' : '/', // Dynamically set base path for GitHub Pages subdirectory slug compatibility
+  base: command === 'build' ? '/FXRScout/' : '/', // Dynamically set base path for GitHub Pages subdirectory slug compatibility
   server: {
     port: 5001, // Serve the local dashboard on port 5001
   },
