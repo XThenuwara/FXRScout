@@ -206,21 +206,3 @@ export async function getLiveGoogleRate(lastEntry = null) {
   return result;
 }
 
-/**
- * Return previous actual bank rates as a fallback when scraping fails, avoiding simulated/random rates.
- */
-export function getFallbackBankRates(bankKey, lastBankEntry, googleRateVal, currency = 'USD') {
-  if (lastBankEntry) {
-    if (typeof lastBankEntry.buy === 'number' && currency === 'USD') {
-      return { buy: lastBankEntry.buy, sell: lastBankEntry.sell };
-    } else if (lastBankEntry[currency]) {
-      return { buy: lastBankEntry[currency].buy, sell: lastBankEntry[currency].sell };
-    }
-  }
-  
-  // Safe static backup: Google interbank rate with a standard interbank margin of 1.0%
-  const buy = Math.round((googleRateVal * 0.99) * 100) / 100;
-  const sell = Math.round((googleRateVal * 1.01) * 100) / 100;
-  return { buy, sell };
-}
-

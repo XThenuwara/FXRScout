@@ -1,8 +1,7 @@
 import { 
   readDatabase, 
   writeDatabase, 
-  getLiveGoogleRate,
-  getFallbackBankRates
+  getLiveGoogleRate
 } from './scraper/common.js';
 import { scrapeComBank } from './scraper/com-bank.js';
 import { scrapeSampath } from './scraper/sampath.js';
@@ -39,28 +38,22 @@ async function runOrchestrator() {
     // 3. Fetch live Interbank reference (Google Rate) ONCE per run
     const googleRate = await getLiveGoogleRate(lastEntry);
     
-    // Helper to get previous recorded rate for a bank
-    const getPreviousRate = (bankKey) => {
-      return isSameDay ? (database.length > 1 ? database[database.length - 2]?.[bankKey] : null) : lastEntry?.[bankKey];
-    };
-
-    // 4. Resolve all 17 currencies for a single bank, applying simulated fallbacks
+    // 4. Resolve all 17 currencies for a single bank
     const resolveBankRates = async (bankKey, scrapeFn, isWaf = false) => {
       let scraped = isWaf ? null : await scrapeFn();
+      
+      if (!isWaf && !scraped) {
+        console.warn(`Scraper for ${bankKey} failed completely or returned no rates today.`);
+      }
+      
       const result = {};
       const currencies = ['USD', 'EUR', 'GBP', 'JPY', 'SGD', 'AUD', 'CHF', 'KWD', 'OMR', 'SAR', 'AED', 'QAR', 'JOD', 'BHD', 'INR', 'CAD', 'NZD'];
       
       currencies.forEach(cur => {
-        const prev = getPreviousRate(bankKey);
-        const interbank = googleRate[cur];
-        
         if (scraped && scraped[cur]) {
           result[cur] = scraped[cur];
         } else {
-          if (!isWaf) {
-            console.warn(`${bankKey} scraping failed or currency ${cur} missing, resolving with last known actual rates fallback.`);
-          }
-          result[cur] = getFallbackBankRates(bankKey, prev, interbank, cur);
+          result[cur] = null;
         }
       });
       
