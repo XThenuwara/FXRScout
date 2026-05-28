@@ -68,41 +68,34 @@ async function runOrchestrator() {
     };
 
     // --- Run Bank Scrapers & Fallbacks ---
-    console.log('Ingesting Central Bank of Sri Lanka (CBSL)...');
-    const cbslRates = await resolveBankRates('cbsl', scrapeCbsl);
-
-    console.log('Ingesting Commercial Bank...');
-    const combankRates = await resolveBankRates('combank', scrapeComBank);
-
-    console.log('Ingesting Sampath Bank...');
-    const sampathRates = await resolveBankRates('sampath', scrapeSampath);
-
-    console.log('Ingesting Hatton National Bank (HNB)...');
-    const hnbRates = await resolveBankRates('hnb', scrapeHnb);
-
-    console.log('Ingesting People\'s Bank...');
-    const peoplesRates = await resolveBankRates('peoples', scrapePeoples);
-
-    console.log('Ingesting Seylan Bank...');
-    const seylanRates = await resolveBankRates('seylan', scrapeSeylan);
-
-    console.log('Union Bank is protected by WAF. Resolving with last known actual rates fallback...');
-    const unionRates = await resolveBankRates('union', null, true);
-
-    console.log('Ingesting Amana Bank...');
-    const amanaRates = await resolveBankRates('amana', scrapeAmana);
-
-    console.log('Ingesting DFCC Bank...');
-    const dfccRates = await resolveBankRates('dfcc', scrapeDfcc);
-
-    console.log('Ingesting NSB Bank...');
-    const nsbRates = await resolveBankRates('nsb', scrapeNsb);
-
-    console.log('PABC Bank is protected by WAF. Resolving with last known actual rates fallback...');
-    const pabcRates = await resolveBankRates('pabc', null, true);
-
-    console.log('Ingesting NDB Bank...');
-    const ndbRates = await resolveBankRates('ndb', scrapeNdb);
+    console.log('Launching parallel ingestion across all banks concurrently...');
+    const [
+      cbslRates,
+      combankRates,
+      sampathRates,
+      hnbRates,
+      peoplesRates,
+      seylanRates,
+      unionRates,
+      amanaRates,
+      dfccRates,
+      nsbRates,
+      pabcRates,
+      ndbRates
+    ] = await Promise.all([
+      resolveBankRates('cbsl', scrapeCbsl),
+      resolveBankRates('combank', scrapeComBank),
+      resolveBankRates('sampath', scrapeSampath),
+      resolveBankRates('hnb', scrapeHnb),
+      resolveBankRates('peoples', scrapePeoples),
+      resolveBankRates('seylan', scrapeSeylan),
+      resolveBankRates('union', null, true),
+      resolveBankRates('amana', scrapeAmana),
+      resolveBankRates('dfcc', scrapeDfcc),
+      resolveBankRates('nsb', scrapeNsb),
+      resolveBankRates('pabc', null, true),
+      resolveBankRates('ndb', scrapeNdb)
+    ]);
     
     // 5. Update or append today's database entry
     if (isSameDay) {

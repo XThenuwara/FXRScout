@@ -45,7 +45,7 @@ export function detectCurrencyKey(text) {
   if (t === 'US DOLLARS' || t === 'US DOLLAR' || t === 'USD' || t.includes('UNITED STATES DOLLAR')) return 'USD';
   if (t === 'EURO' || t === 'EUR' || t.includes('EURO')) return 'EUR';
   if (t.includes('STERLING') || t.includes('POUND') || t === 'GBP' || t.includes('GREAT BRITAIN')) return 'GBP';
-  if (t === 'JAPANESE YEN' || t === 'JPY' || t.includes('JAPANESE YEN')) return 'JPY';
+  if (t === 'JAPANESE YEN' || t === 'JPY' || t.includes('JAPANESE YEN') || t === 'YEN') return 'JPY';
   if (t === 'SINGAPORE DOLLARS' || t === 'SINGAPORE DOLLAR' || t === 'SGD' || t.includes('SINGAPORE')) return 'SGD';
   if (t === 'AUSTRALIAN DOLLARS' || t === 'AUSTRALIAN DOLLAR' || t === 'AUD' || t.includes('AUSTRALIAN')) return 'AUD';
   if (t === 'SWISS FRANCS' || t === 'SWISS FRANC' || t === 'CHF' || t.includes('SWISS')) return 'CHF';
