@@ -2,16 +2,22 @@ name: Daily Exchange Rate Scrape
 
 on:
   schedule:
-    # Run daily at 7:30 AM UTC (1:00 PM Sri Lanka Time)
-    - cron: '30 7 * * *'
+    # Run daily at 7:37 AM UTC (1:07 PM Sri Lanka Time)
+    - cron: '37 7 * * *'
   workflow_dispatch:
     # Allow manual triggers from the Actions tab
 
 permissions:
   contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: 'pages'
+  cancel-in-progress: true
 
 jobs:
-  scrape-and-update:
+  scrape-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -30,19 +36,41 @@ jobs:
       - name: Run scraper
         run: npm run scrape
 
-      - name: Commit and push if data changed
+      - name: Check for data changes
+        id: check_changes
+        run: |
+          git add public/data.json
+          if git diff --cached --quiet; then
+            echo "changed=false" >> $GITHUB_OUTPUT
+            echo "No changes in data.json. Skipping commit and deploy."
+          else
+            echo "changed=true" >> $GITHUB_OUTPUT
+            echo "Data changed. Proceeding to commit and deploy."
+          fi
+
+      - name: Commit and push changes
+        if: steps.check_changes.outputs.changed == 'true'
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          
-          # Add changes
-          git add public/data.json
-          
-          # Check if there is anything to commit
-          if git diff --cached --quiet; then
-            echo "No changes in data.json. Skipping commit."
-          else
-            echo "Data changed. Committing and pushing..."
-            git commit -m "chore: auto-update LKR exchange rates [skip ci]"
-            git push
-          fi
+          git commit -m "chore: auto-update LKR exchange rates [skip ci]"
+          git push
+
+      - name: Build project
+        if: steps.check_changes.outputs.changed == 'true'
+        run: npm run build
+
+      - name: Setup Pages
+        if: steps.check_changes.outputs.changed == 'true'
+        uses: actions/configure-pages@v4
+
+      - name: Upload artifact
+        if: steps.check_changes.outputs.changed == 'true'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: './dist'
+
+      - name: Deploy to GitHub Pages
+        if: steps.check_changes.outputs.changed == 'true'
+        id: deployment
+        uses: actions/deploy-pages@v4
