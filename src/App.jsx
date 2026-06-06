@@ -720,20 +720,26 @@ function App() {
       
       let sumBuy = 0;
       let count = 0;
+      
+      const entry = {
+        timestamp: item.timestamp,
+        google: googleVal > 0 ? googleVal : null,
+        cbsl: cbslVal.buy > 0 ? cbslVal.buy : null,
+      };
+
       banks.forEach(bk => {
         const rates = getBankRate(item, bk, activeCurrency);
         if (rates && rates.buy > 0) {
           sumBuy += rates.buy;
           count++;
+          entry[bk] = rates.buy;
+        } else {
+          entry[bk] = null;
         }
       });
       
-      return {
-        timestamp: item.timestamp,
-        google: googleVal > 0 ? googleVal : null,
-        cbsl: cbslVal.buy > 0 ? cbslVal.buy : null,
-        banksAvg: count > 0 ? sumBuy / count : null
-      };
+      entry.banksAvg = count > 0 ? sumBuy / count : null;
+      return entry;
     });
 
     return {
@@ -2115,12 +2121,17 @@ function App() {
                             }}
                             labelFormatter={(label) => new Date(label).toLocaleDateString(undefined, { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' })}
                             formatter={(value, name) => {
-                              const labelStr = name === 'banksAvg' ? 'Commercial Banks Average' : name === 'google' ? 'Google Reference' : 'CBSL Reference';
-                              return [formatLKR(value), labelStr];
+                              if (name === 'banksAvg') return [formatLKR(value), 'Commercial Banks Average'];
+                              if (name === 'google') return [formatLKR(value), 'Google Reference'];
+                              if (name === 'cbsl') return [formatLKR(value), 'CBSL Reference'];
+                              return [formatLKR(value), bankNames[name] || name];
                             }}
                           />
                           <Legend verticalAlign="top" height={36} iconType="circle" iconSize={8} wrapperStyle={{ fontSize: '10px', fontWeight: 'bold', paddingBottom: '10px' }} />
-                          <Line type="monotone" dataKey="banksAvg" stroke="hsl(var(--primary))" strokeWidth={2.5} dot={false} name="banksAvg" />
+                          {Object.keys(bankNames).map((bk) => (
+                            <Line key={bk} type="monotone" dataKey={bk} stroke={getBankColor(bk)} strokeWidth={1} dot={false} name={bk} opacity={0.25} connectNulls={true} />
+                          ))}
+                          <Line type="monotone" dataKey="banksAvg" stroke="hsl(var(--primary))" strokeWidth={3} dot={false} name="banksAvg" />
                           <Line type="monotone" dataKey="google" stroke="hsl(var(--google))" strokeWidth={1.5} strokeDasharray="4 4" dot={false} name="google" connectNulls={true} />
                           <Line type="monotone" dataKey="cbsl" stroke="#64748b" strokeWidth={1.5} strokeDasharray="4 4" dot={false} name="cbsl" connectNulls={true} />
                         </LineChart>
