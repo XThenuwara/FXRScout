@@ -5,6 +5,9 @@ import {
   Area, 
   LineChart,
   Line,
+  BarChart,
+  Bar,
+  Cell,
   XAxis, 
   YAxis, 
   CartesianGrid, 
@@ -32,7 +35,8 @@ import {
   Layers,
   Sparkles,
   Calculator,
-  Download
+  Download,
+  BarChart2
 } from 'lucide-react';
 
 function App() {
@@ -658,6 +662,87 @@ function App() {
     };
   }, [data, calculatorDirection, activeCurrency, calculatorResults]);
 
+  // Memoized calculations for the Reports Tab
+  const reportsData = useMemo(() => {
+    if (data.length === 0) return null;
+
+    const banks = ['combank', 'sampath', 'hnb', 'peoples', 'seylan', 'union', 'amana', 'dfcc', 'nsb', 'pabc', 'ndb'];
+    
+    // 1. Spreads Rank Report
+    const spreadsRank = banks.map(bk => {
+      let sumSpread = 0;
+      let count = 0;
+      filteredChartData.forEach(item => {
+        const rates = getBankRate(item, bk, activeCurrency);
+        if (rates && rates.buy > 0 && rates.sell > 0) {
+          sumSpread += (rates.sell - rates.buy);
+          count++;
+        }
+      });
+      return {
+        key: bk,
+        name: bankNames[bk],
+        avgSpread: count > 0 ? sumSpread / count : null
+      };
+    }).filter(item => item.avgSpread !== null)
+      .sort((a, b) => a.avgSpread - b.avgSpread);
+
+    // 2. Volatilities / Ranges Report
+    const volatilityReport = banks.map(bk => {
+      let minBuy = Infinity;
+      let maxBuy = -Infinity;
+      let sumBuy = 0;
+      let count = 0;
+      filteredChartData.forEach(item => {
+        const rates = getBankRate(item, bk, activeCurrency);
+        if (rates && rates.buy > 0) {
+          if (rates.buy < minBuy) minBuy = rates.buy;
+          if (rates.buy > maxBuy) maxBuy = rates.buy;
+          sumBuy += rates.buy;
+          count++;
+        }
+      });
+      return {
+        key: bk,
+        name: bankNames[bk],
+        minBuy: count > 0 ? minBuy : null,
+        maxBuy: count > 0 ? maxBuy : null,
+        avgBuy: count > 0 ? sumBuy / count : null,
+        range: count > 0 ? maxBuy - minBuy : null
+      };
+    }).filter(item => item.range !== null)
+      .sort((a, b) => b.range - a.range); // high variance first
+
+    // 3. Benchmarks Comparison Daily Walk Report
+    const dailyBenchmarksWalk = filteredChartData.map(item => {
+      const googleVal = getGoogleRate(item, activeCurrency);
+      const cbslVal = getCbslRate(item, activeCurrency);
+      
+      let sumBuy = 0;
+      let count = 0;
+      banks.forEach(bk => {
+        const rates = getBankRate(item, bk, activeCurrency);
+        if (rates && rates.buy > 0) {
+          sumBuy += rates.buy;
+          count++;
+        }
+      });
+      
+      return {
+        timestamp: item.timestamp,
+        google: googleVal > 0 ? googleVal : null,
+        cbsl: cbslVal.buy > 0 ? cbslVal.buy : null,
+        banksAvg: count > 0 ? sumBuy / count : null
+      };
+    });
+
+    return {
+      spreadsRank,
+      volatilityReport,
+      dailyBenchmarksWalk
+    };
+  }, [data, filteredChartData, activeCurrency]);
+
   const totalPages = Math.ceil(filteredTableData.length / itemsPerPage);
 
   useEffect(() => {
@@ -910,6 +995,7 @@ function App() {
           { id: 'analytics', label: 'Dashboard Analytics', icon: Activity },
           { id: 'compare', label: 'Compare Bank Rates', icon: Layers },
           { id: 'calculator', label: 'Exchange Calculator', icon: Calculator },
+          { id: 'reports', label: 'Market Reports', icon: BarChart2 },
         ].map((tab) => {
           const TabIcon = tab.icon;
           const isActive = activeTab === tab.id;
@@ -1813,6 +1899,242 @@ function App() {
               </div>
             )}
 
+            {/* TAB D: MARKET REPORTS & HISTORICAL ANALYSIS */}
+            {activeTab === 'reports' && reportsData && (
+              <div id="panel-reports" role="tabpanel" aria-labelledby="tab-reports" tabIndex={0} className="animate-fadeIn space-y-6 focus-visible:outline-none">
+                {/* Reports Header Info */}
+                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 p-4 rounded-xl bg-card border border-border shadow-sm">
+                  <div>
+                    <h3 className="text-sm font-bold text-foreground flex items-center gap-2">
+                      <BarChart2 className="w-4 h-4 text-google" /> Market Reports & Analytics
+                    </h3>
+                    <p className="text-muted-foreground text-[10px] mt-0.5">
+                      Aggregated historical metrics showing spread tightness, volatility distributions, and average walks over the selected date range ({chartRange === 'all' ? 'All History' : `${chartRange} days`}).
+                    </p>
+                  </div>
+                  
+                  {/* Reuse date range selectors */}
+                  <div
+                    className="inline-flex p-1 rounded-lg bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 self-stretch sm:self-auto justify-between"
+                    role="group"
+                    aria-label="Select report date range"
+                  >
+                    {[
+                      { label: '7 Days', val: '7d' },
+                      { label: '14 Days', val: '14d' },
+                      { label: '30 Days', val: '30d' },
+                      { label: 'All History', val: 'all' },
+                    ].map((r) => (
+                      <button
+                        key={r.val}
+                        onClick={() => setChartRange(r.val)}
+                        aria-pressed={chartRange === r.val}
+                        className={`px-2.5 py-1 rounded-md text-[10px] font-semibold transition-all focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none focus:outline-none ${
+                          chartRange === r.val ? 'bg-card text-foreground border border-border shadow-sm' : 'text-muted-foreground hover:text-foreground'
+                        }`}
+                      >
+                        {r.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                  {/* SECTION 1: Average Spreads Leaderboard */}
+                  <div className="theme-panel p-5 rounded-2xl bg-card text-card-foreground border border-border flex flex-col justify-between">
+                    <div>
+                      <div className="pb-3 border-b border-border mb-4">
+                        <h4 className="text-sm font-bold text-foreground">Average Bank Spreads Leaderboard</h4>
+                        <p className="text-muted-foreground text-[10px] mt-0.5">Average margin spread (Sell Rate - Buy Rate) in LKR. A lower spread indicates better value efficiency.</p>
+                      </div>
+
+                      {reportsData.spreadsRank.length > 0 ? (
+                        <>
+                          {/* Highlight tightest vs widest */}
+                          <div className="grid grid-cols-2 gap-4 mb-5">
+                            <div className="p-3 rounded-xl bg-emerald-500/5 border border-emerald-500/15">
+                              <span className="text-[9px] text-emerald-500 font-bold uppercase tracking-wider block">Tightest Margin (Best)</span>
+                              <span className="text-base font-extrabold text-foreground mt-0.5 block">{reportsData.spreadsRank[0].name}</span>
+                              <span className="text-xs font-mono font-bold text-emerald-500 mt-0.5">{formatLKR(reportsData.spreadsRank[0].avgSpread)}</span>
+                            </div>
+                            <div className="p-3 rounded-xl bg-rose-500/5 border border-rose-500/15">
+                              <span className="text-[9px] text-rose-500 font-bold uppercase tracking-wider block">Widest Margin (Worst)</span>
+                              <span className="text-base font-extrabold text-foreground mt-0.5 block">{reportsData.spreadsRank[reportsData.spreadsRank.length - 1].name}</span>
+                              <span className="text-xs font-mono font-bold text-rose-500 mt-0.5">{formatLKR(reportsData.spreadsRank[reportsData.spreadsRank.length - 1].avgSpread)}</span>
+                            </div>
+                          </div>
+
+                          <div className="w-full h-[260px] sm:h-[300px]" role="img" aria-label="Bar chart displaying average bank spreads">
+                            <ResponsiveContainer width="100%" height="100%">
+                              <BarChart data={reportsData.spreadsRank} layout="vertical" margin={{ top: 5, right: 10, left: 10, bottom: 5 }}>
+                                <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border) / 0.4)" horizontal={false} />
+                                <XAxis type="number" tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 10 }} axisLine={false} tickLine={false} />
+                                <YAxis 
+                                  type="category" 
+                                  dataKey="name" 
+                                  tickFormatter={(name) => name.split(' ')[0]} 
+                                  tick={{ fill: 'hsl(var(--foreground))', fontSize: 10, fontWeight: 600 }} 
+                                  axisLine={false}
+                                  tickLine={false} 
+                                  width={60}
+                                />
+                                <Tooltip 
+                                  formatter={(value) => [formatLKR(value), 'Average Spread']} 
+                                  contentStyle={{ 
+                                    backgroundColor: 'hsl(var(--card))', 
+                                    borderColor: 'hsl(var(--border))', 
+                                    borderRadius: '0.75rem',
+                                    fontSize: '11px',
+                                    fontWeight: 'bold',
+                                    color: 'hsl(var(--foreground))' 
+                                  }}
+                                />
+                                <Bar dataKey="avgSpread" radius={[0, 4, 4, 0]} barSize={12}>
+                                  {reportsData.spreadsRank.map((entry, index) => {
+                                    const isTightest = index === 0;
+                                    const isWidest = index === reportsData.spreadsRank.length - 1;
+                                    return (
+                                      <Cell 
+                                        key={`cell-${index}`} 
+                                        fill={isTightest ? 'hsl(var(--buy))' : isWidest ? 'hsl(var(--sell))' : 'hsl(var(--primary) / 0.5)'} 
+                                      />
+                                    );
+                                  })}
+                                </Bar>
+                              </BarChart>
+                            </ResponsiveContainer>
+                          </div>
+                        </>
+                      ) : (
+                        <div className="py-12 text-center text-muted-foreground text-xs">No spreads data logged.</div>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* SECTION 2: Volatilities & Range Margins */}
+                  <div className="theme-panel p-5 rounded-2xl bg-card text-card-foreground border border-border flex flex-col justify-between">
+                    <div>
+                      <div className="pb-3 border-b border-border mb-4">
+                        <h4 className="text-sm font-bold text-foreground">Exchange Rate Volatilities & Bounds</h4>
+                        <p className="text-muted-foreground text-[10px] mt-0.5">Volatility ranges representing the absolute distance between lowest and highest logged buy rates.</p>
+                      </div>
+
+                      {reportsData.volatilityReport.length > 0 ? (
+                        <>
+                          {/* Highest volatility warning card */}
+                          <div className="p-3 rounded-xl bg-amber-500/5 border border-amber-500/15 mb-4 flex items-center justify-between">
+                            <div>
+                              <span className="text-[9px] text-amber-500 font-bold uppercase tracking-wider block">Most Volatile Asset</span>
+                              <span className="text-sm font-extrabold text-foreground mt-0.5 block">{reportsData.volatilityReport[0].name}</span>
+                            </div>
+                            <div className="text-right">
+                              <span className="text-[9px] text-muted-foreground block font-bold uppercase">Spread Margin (Max-Min)</span>
+                              <span className="text-sm font-mono font-black text-amber-500">{reportsData.volatilityReport[0].range.toFixed(2)} LKR</span>
+                            </div>
+                          </div>
+
+                          <div className="space-y-3 max-h-[300px] overflow-y-auto pr-1 no-scrollbar">
+                            {reportsData.volatilityReport.map((item, idx) => (
+                              <div key={item.key} className="p-3 rounded-xl bg-zinc-100/60 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 text-[11px]">
+                                <div className="flex justify-between items-center mb-1.5">
+                                  <span className="font-bold text-foreground flex items-center gap-1.5">
+                                    <span className="w-2 h-2 rounded-full" style={{ backgroundColor: getBankColor(item.key) }}></span>
+                                    {item.name}
+                                  </span>
+                                  <span className="font-mono font-extrabold text-foreground">Variance: {item.range.toFixed(2)} LKR</span>
+                                </div>
+                                <div className="grid grid-cols-3 gap-2 text-center text-[10px] font-semibold text-muted-foreground pt-1 border-t border-border/40">
+                                  <div>
+                                    <span className="block text-[8px] text-muted-foreground uppercase">Min Rate</span>
+                                    <span className="block font-mono text-foreground mt-0.5">{item.minBuy.toFixed(2)}</span>
+                                  </div>
+                                  <div className="border-l border-border/40">
+                                    <span className="block text-[8px] text-muted-foreground uppercase">Average</span>
+                                    <span className="block font-mono text-buy mt-0.5">{item.avgBuy.toFixed(2)}</span>
+                                  </div>
+                                  <div className="border-l border-border/40">
+                                    <span className="block text-[8px] text-muted-foreground uppercase">Max Rate</span>
+                                    <span className="block font-mono text-foreground mt-0.5">{item.maxBuy.toFixed(2)}</span>
+                                  </div>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </>
+                      ) : (
+                        <div className="py-12 text-center text-muted-foreground text-xs">No volatility markers registered.</div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+
+                {/* SECTION 3: Benchmark Average walk comparison */}
+                <div className="theme-panel p-5 rounded-2xl bg-card border border-border">
+                  <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 pb-4 border-b border-border">
+                    <div>
+                      <h3 className="text-md font-bold text-foreground flex items-center gap-2">
+                        <Activity className="w-4 h-4 text-google" /> Benchmark Comparison Trend Walk
+                      </h3>
+                      <p className="text-muted-foreground text-[10px] mt-0.5">Comparison of the commercial bank buying average against Google Interbank and Central Bank of Sri Lanka (CBSL) benchmark references.</p>
+                    </div>
+                  </div>
+
+                  <div className="w-full h-[320px] sm:h-[350px]" role="img" aria-label="Line chart comparing average bank rates against benchmarks">
+                    {reportsData.dailyBenchmarksWalk.length > 0 ? (
+                      <ResponsiveContainer width="100%" height="100%">
+                        <LineChart data={reportsData.dailyBenchmarksWalk} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                          <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border) / 0.4)" vertical={false} />
+                          <XAxis
+                            dataKey="timestamp"
+                            tickFormatter={(ts) =>
+                              new Date(ts).toLocaleDateString(undefined, {
+                                month: 'short',
+                                day: 'numeric',
+                              })
+                            }
+                            tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 10, fontWeight: 500 }}
+                            axisLine={false}
+                            tickLine={false}
+                            dy={10}
+                          />
+                          <YAxis
+                            domain={['auto', 'auto']}
+                            tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 10, fontWeight: 500, fontFamily: 'monospace' }}
+                            axisLine={false}
+                            tickLine={false}
+                            dx={-10}
+                            tickFormatter={(val) => val.toFixed(1)}
+                          />
+                          <Tooltip 
+                            contentStyle={{ 
+                              backgroundColor: 'hsl(var(--card))', 
+                              borderColor: 'hsl(var(--border))', 
+                              borderRadius: '0.75rem',
+                              fontSize: '11px',
+                              color: 'hsl(var(--foreground))' 
+                            }}
+                            labelFormatter={(label) => new Date(label).toLocaleDateString(undefined, { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' })}
+                            formatter={(value, name) => {
+                              const labelStr = name === 'banksAvg' ? 'Commercial Banks Average' : name === 'google' ? 'Google Reference' : 'CBSL Reference';
+                              return [formatLKR(value), labelStr];
+                            }}
+                          />
+                          <Legend verticalAlign="top" height={36} iconType="circle" iconSize={8} wrapperStyle={{ fontSize: '10px', fontWeight: 'bold', paddingBottom: '10px' }} />
+                          <Line type="monotone" dataKey="banksAvg" stroke="hsl(var(--primary))" strokeWidth={2.5} dot={false} name="banksAvg" />
+                          <Line type="monotone" dataKey="google" stroke="hsl(var(--google))" strokeWidth={1.5} strokeDasharray="4 4" dot={false} name="google" connectNulls={true} />
+                          <Line type="monotone" dataKey="cbsl" stroke="#64748b" strokeWidth={1.5} strokeDasharray="4 4" dot={false} name="cbsl" connectNulls={true} />
+                        </LineChart>
+                      </ResponsiveContainer>
+                    ) : (
+                      <div className="h-full flex items-center justify-center text-muted-foreground text-xs">No benchmark comparison logs registered.</div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            )}
+
+
+
             {/* TAB C: INTERACTIVE EXCHANGE CALCULATOR */}
             {activeTab === 'calculator' && (
               <div id="panel-calculator" role="tabpanel" aria-labelledby="tab-calculator" tabIndex={0} className="animate-fadeIn space-y-6 focus-visible:outline-none">
@@ -1872,6 +2194,7 @@ function App() {
                           Conversion Mode
                         </label>
                         <div className="flex flex-col gap-2" role="group" aria-labelledby="conversion-mode-label">
+
                           <button
                             onClick={() => setCalculatorDirection('toLkr')}
                             aria-pressed={calculatorDirection === 'toLkr'}
