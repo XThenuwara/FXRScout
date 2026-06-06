@@ -39,6 +39,34 @@ import {
   BarChart2
 } from 'lucide-react';
 
+import combankLogo from './assets/bank-logo/comm_bank.png';
+import sampathLogo from './assets/bank-logo/sampath.png';
+import hnbLogo from './assets/bank-logo/HNB.png';
+import peoplesLogo from './assets/bank-logo/peoples.jpg';
+import seylanLogo from './assets/bank-logo/seylan.png';
+import unionLogo from './assets/bank-logo/union.jpeg';
+import amanaLogo from './assets/bank-logo/amana.png';
+import dfccLogo from './assets/bank-logo/DFCC.jpg';
+import nsbLogo from './assets/bank-logo/NSB.jpg';
+import pabcLogo from './assets/bank-logo/PABC.jpg';
+import ndbLogo from './assets/bank-logo/NDB.png';
+import cbslLogo from './assets/bank-logo/cbsl.png';
+
+const bankLogos = {
+  combank: combankLogo,
+  sampath: sampathLogo,
+  hnb: hnbLogo,
+  peoples: peoplesLogo,
+  seylan: seylanLogo,
+  union: unionLogo,
+  amana: amanaLogo,
+  dfcc: dfccLogo,
+  nsb: nsbLogo,
+  pabc: pabcLogo,
+  ndb: ndbLogo,
+  cbsl: cbslLogo
+};
+
 function App() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -1074,19 +1102,28 @@ function App() {
                     <label htmlFor="bank-selector" className="text-muted-foreground font-semibold text-xs uppercase tracking-wider">
                       Active Bank Target
                     </label>
-                    <select
-                      id="bank-selector"
-                      value={selectedBank}
-                      onChange={(e) => setSelectedBank(e.target.value)}
-                      className="px-3 py-1.5 text-xs font-semibold rounded-lg bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus-visible:ring-ring focus-visible:outline-none transition-all cursor-pointer"
-                      aria-label="Active bank target selection"
-                    >
-                      {Object.entries(bankNames).map(([key, name]) => (
-                        <option key={key} value={key}>
-                          {name}
-                        </option>
-                      ))}
-                    </select>
+                    <div className="flex items-center gap-2">
+                      {bankLogos[selectedBank] && (
+                        <img 
+                          src={bankLogos[selectedBank]} 
+                          alt={`${bankNames[selectedBank]} logo`} 
+                          className="w-6 h-6 rounded-md object-contain bg-white p-0.5 border border-border shrink-0" 
+                        />
+                      )}
+                      <select
+                        id="bank-selector"
+                        value={selectedBank}
+                        onChange={(e) => setSelectedBank(e.target.value)}
+                        className="px-3 py-1.5 text-xs font-semibold rounded-lg bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus-visible:ring-ring focus-visible:outline-none transition-all cursor-pointer"
+                        aria-label="Active bank target selection"
+                      >
+                        {Object.entries(bankNames).map(([key, name]) => (
+                          <option key={key} value={key}>
+                            {name}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
                   </div>
 
                   <div className="flex items-center gap-4 text-xs font-semibold text-muted-foreground border-t sm:border-t-0 pt-2 sm:pt-0 border-border self-stretch sm:self-auto justify-between">
@@ -1819,7 +1856,14 @@ function App() {
                           <tr key={row.key} className="hover:bg-zinc-150/40 dark:hover:bg-zinc-900/60 text-muted-foreground hover:text-foreground transition-all">
                             {/* Bank Name */}
                             <td className="py-3 px-1.5 sm:px-3 font-semibold text-foreground flex items-center gap-2">
-                              {row.name}
+                              {bankLogos[row.key] && (
+                                <img 
+                                  src={bankLogos[row.key]} 
+                                  alt="" 
+                                  className="w-5 h-5 rounded object-contain bg-white p-0.5 border border-border shrink-0" 
+                                />
+                              )}
+                              <span>{row.name}</span>
 
                               {/* Best Buy Star */}
                               {row.isBestBuy && (
@@ -2259,8 +2303,15 @@ function App() {
                         <div className="space-y-4">
                           <div>
                             <p className="text-zinc-400 text-xs font-semibold uppercase tracking-wider">RECOMMENDED INSTITUTION</p>
-                            <h2 className="text-3xl font-black text-white tracking-tight mt-1 flex items-baseline gap-2">
-                              {calculatorResults[0].name}
+                            <h2 className="text-3xl font-black text-white tracking-tight mt-1 flex items-center gap-2.5 flex-wrap">
+                              {bankLogos[calculatorResults[0].key] && (
+                                <img 
+                                  src={bankLogos[calculatorResults[0].key]} 
+                                  alt="" 
+                                  className="w-8 h-8 rounded-lg object-contain bg-white p-0.5 border border-white/20 shrink-0" 
+                                />
+                              )}
+                              <span>{calculatorResults[0].name}</span>
                               <span className="text-xs text-emerald-400 font-bold bg-emerald-500/15 border border-emerald-500/25 px-2 py-0.5 rounded-md uppercase tracking-wider">
                                 Optimal Option
                               </span>
@@ -2349,24 +2400,31 @@ function App() {
                         {calculatorResults.map((row) => (
                           <tr key={row.key} className="hover:bg-zinc-150/40 dark:hover:bg-zinc-900/60 text-muted-foreground hover:text-foreground transition-all">
                             {/* Rank & Bank Name */}
-                            <td className="py-3 px-3 font-semibold text-foreground flex items-center gap-2.5">
-                              <span
-                                className={`flex items-center justify-center w-5 h-5 rounded-md text-[10px] font-black ${
-                                  row.isBest
-                                    ? 'bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30'
-                                    : row.isWorst
-                                      ? 'bg-rose-500/20 text-rose-600 dark:text-rose-400 border border-rose-500/30'
-                                      : 'bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-muted-foreground'
-                                }`}
-                              >
-                                #{row.rank}
-                              </span>
-                              <span>{row.name}</span>
-                              {row.isBest && (
-                                <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[8px] font-extrabold bg-emerald-500/10 text-emerald-500 border border-emerald-500/20 uppercase tracking-wider shadow-sm">
-                                  Optimal Choice
-                                </span>
-                              )}
+                             <td className="py-3 px-3 font-semibold text-foreground flex items-center gap-2.5">
+                               <span
+                                 className={`flex items-center justify-center w-5 h-5 rounded-md text-[10px] font-black shrink-0 ${
+                                   row.isBest
+                                     ? 'bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30'
+                                     : row.isWorst
+                                       ? 'bg-rose-500/20 text-rose-600 dark:text-rose-400 border border-rose-500/30'
+                                       : 'bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-muted-foreground'
+                                 }`}
+                               >
+                                 #{row.rank}
+                               </span>
+                               {bankLogos[row.key] && (
+                                 <img 
+                                   src={bankLogos[row.key]} 
+                                   alt="" 
+                                   className="w-5 h-5 rounded object-contain bg-white p-0.5 border border-border shrink-0" 
+                                 />
+                               )}
+                               <span>{row.name}</span>
+                               {row.isBest && (
+                                 <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[8px] font-extrabold bg-emerald-500/10 text-emerald-500 border border-emerald-500/20 uppercase tracking-wider shadow-sm">
+                                   Optimal Choice
+                                 </span>
+                               )}
                               {row.isWorst && (
                                 <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[8px] font-extrabold bg-rose-500/10 text-rose-500 border border-rose-500/20 uppercase tracking-wider shadow-sm">
                                   Worst Value
