@@ -906,37 +906,39 @@ function App() {
   return (
     <div className="min-h-screen pb-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto select-none transition-colors duration-300" role="document">
       {/* Brand Header */}
-      <header className="relative pt-6 pb-4 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 z-20">
+      <header className="relative pt-8 pb-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-6 z-20 border-b border-border/40 mb-6">
         <div>
-          <div className="flex flex-wrap items-center gap-2.5 mb-1">
-            <div className="flex items-center justify-center w-8 h-8 rounded-lg border border-border bg-card text-foreground shadow-sm" aria-hidden="true">
-              <DollarSign className="w-4 h-4" />
+          <div className="flex flex-wrap items-center gap-3 mb-1.5">
+            <div className="flex items-center justify-center w-9 h-9 rounded-xl border border-primary/20 bg-gradient-to-tr from-primary/10 via-primary/5 to-card text-foreground shadow-md" aria-hidden="true">
+              <DollarSign className="w-5 h-5 text-primary" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold font-sans tracking-tight text-foreground">FXRScout</h1>
+              <h1 className="text-3xl font-black tracking-tight bg-gradient-to-r from-foreground via-foreground to-muted-foreground bg-clip-text text-transparent" style={{ fontFamily: 'Outfit' }}>
+                FXRScout
+              </h1>
             </div>
-            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-bold bg-zinc-100 dark:bg-zinc-900 text-zinc-500 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-800">
-              <Server className="w-3 h-3 text-emerald-500 animate-pulse" aria-hidden="true" />
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[9px] font-extrabold bg-emerald-500/10 text-emerald-500 border border-emerald-500/20 shadow-sm">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
               SL BANKS REFERENCE
             </span>
           </div>
-          <p className="text-muted-foreground text-xs max-w-xl">
-            Compare daily exchange rates across Sri Lankan commercial banks relative to Google Interbank Reference Benchmarks.
+          <p className="text-muted-foreground text-xs sm:text-sm max-w-xl leading-relaxed">
+            Real-time analytics comparing commercial bank exchange rates against official CBSL references & Google Interbank benchmarks.
           </p>
         </div>
 
         {/* Global Action Toolbar */}
-        <div className="flex flex-wrap items-center gap-2.5 self-stretch md:self-auto justify-between sm:justify-start">
+        <div className="flex flex-wrap items-center gap-3 self-stretch md:self-auto justify-between sm:justify-start">
           {/* Dynamic Currency Selector Dropdown */}
-          <div className="flex items-center gap-1.5 px-3 h-8 rounded-lg bg-card border border-border shadow-sm">
-            <label htmlFor="currency-selector" className="text-muted-foreground font-semibold text-[10px] uppercase tracking-wider">
-              Currency:
+          <div className="flex items-center gap-2 px-3 h-9 rounded-xl bg-card border border-border shadow-sm hover:border-muted-foreground/35 transition-colors">
+            <label htmlFor="currency-selector" className="text-muted-foreground font-bold text-[10px] uppercase tracking-wider">
+              CURRENCY:
             </label>
             <select
               id="currency-selector"
               value={activeCurrency}
               onChange={(e) => setActiveCurrency(e.target.value)}
-              className="bg-transparent text-xs font-bold text-foreground focus:outline-none cursor-pointer focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-1 rounded-sm"
+              className="bg-transparent text-xs font-black text-foreground focus:outline-none cursor-pointer focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-1 rounded-sm"
               aria-label="Active conversion currency"
             >
               <option value="USD" className="bg-card text-foreground">
@@ -997,18 +999,18 @@ function App() {
             {/* Theme Toggle Button */}
             <button
               onClick={() => setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'))}
-              className="flex items-center justify-center w-8 h-8 rounded-lg bg-card border border-border text-muted-foreground hover:text-foreground transition-all shadow-sm focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
+              className="flex items-center justify-center w-9 h-9 rounded-xl bg-card border border-border text-muted-foreground hover:text-foreground hover:border-muted-foreground/35 transition-all shadow-sm focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
               title={theme === 'dark' ? 'Toggle Light Mode' : 'Toggle Dark Mode'}
               aria-label={theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'}
             >
-              {theme === 'dark' ? <Sun className="w-4 h-4" aria-hidden="true" /> : <Moon className="w-4 h-4" aria-hidden="true" />}
+              {theme === 'dark' ? <Sun className="w-4.5 h-4.5" aria-hidden="true" /> : <Moon className="w-4.5 h-4.5" aria-hidden="true" />}
             </button>
 
             {/* Refreshes */}
             <button
               onClick={fetchData}
               disabled={loading}
-              className="flex items-center justify-center w-8 h-8 rounded-lg bg-card border border-border text-muted-foreground hover:text-foreground transition-all shadow-sm disabled:opacity-50 focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
+              className="flex items-center justify-center w-9 h-9 rounded-xl bg-card border border-border text-muted-foreground hover:text-foreground hover:border-muted-foreground/35 transition-all shadow-sm disabled:opacity-50 focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
               title="Refresh database logs"
               aria-label="Refresh database logs"
               aria-busy={loading}
@@ -1021,7 +1023,7 @@ function App() {
 
       {/* Main Tab Navigation Bar */}
       <nav
-        className="mb-6 border-b border-border flex w-full items-center justify-between sm:justify-start gap-1 pb-px overflow-x-auto no-scrollbar z-10"
+        className="mb-8 border-b border-border/60 flex w-full items-center justify-between sm:justify-start gap-1 sm:gap-2 pb-px overflow-x-auto no-scrollbar z-10"
         role="tablist"
         aria-label="Dashboard navigation tabs"
       >
@@ -1042,11 +1044,13 @@ function App() {
               aria-controls={`panel-${tab.id}`}
               tabIndex={isActive ? 0 : -1}
               onClick={() => setActiveTab(tab.id)}
-              className={`flex-1 sm:flex-initial flex items-center justify-center gap-1.5 sm:gap-2 px-2.5 py-3 sm:px-4 sm:py-3 border-b-2 text-[11px] sm:text-xs font-semibold transition-all shrink-0 -mb-px focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ${
-                isActive ? 'border-foreground text-foreground' : 'border-transparent text-muted-foreground hover:text-foreground'
+              className={`flex-1 sm:flex-initial flex items-center justify-center gap-2 px-3 py-3 sm:px-5 sm:py-3.5 border-b-2 text-xs font-bold transition-all duration-200 shrink-0 -mb-px rounded-t-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${
+                isActive 
+                  ? 'border-primary text-foreground bg-primary/5 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.05)]' 
+                  : 'border-transparent text-muted-foreground hover:text-foreground hover:bg-muted/30'
               }`}
             >
-              <TabIcon className="w-3.5 h-3.5 sm:w-4 sm:h-4" aria-hidden="true" />
+              <TabIcon className={`w-4 h-4 transition-transform duration-200 ${isActive ? 'text-primary scale-110' : 'text-muted-foreground'}`} aria-hidden="true" />
               <span>{tab.label}</span>
             </button>
           );
