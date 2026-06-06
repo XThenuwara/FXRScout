@@ -11,16 +11,58 @@
     <meta name="description" content="FXRScout is a lightweight, zero-cost automated exchange rate comparison and premium visualization dashboard. It aggregates LKR buying and selling exchange rates daily and features responsive historical time-series analytics." />
     <meta name="keywords" content="FXRScout, LKR, USD to LKR, exchange rate, Sri Lanka, bank exchange rates, comparison, flat-file database, Recharts, React dashboard" />
     <meta name="author" content="FXRScout Engine" />
+    <meta name="robots" content="index, follow" />
 
     <!-- Open Graph (OG) Facebook/LinkedIn metadata -->
     <meta property="og:type" content="website" />
     <meta property="og:title" content="FXRScout | Automated LKR Exchange Rate Sync" />
     <meta property="og:description" content="Monitor LKR exchange rates with clean interactive charts. Automated flat-file comparison updated daily." />
+    <meta property="og:url" content="https://fxrscout.example.com/" />
+    <meta property="og:site_name" content="FXRScout" />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- Twitter Card metadata -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="FXRScout | LKR Exchange Rate Comparison & Dashboard" />
+    <meta name="twitter:description" content="Compare daily buying and selling exchange rates across Sri Lankan commercial banks relative to Google Interbank benchmarks." />
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://fxrscout.example.com/" />
 
     <!-- Premium Icon Configuration -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📈</text></svg>" />
+
+    <!-- Schema.org JSON-LD Structured Data -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "FXRScout",
+        "description": "An automated LKR exchange rate comparison platform and premium dashboard.",
+        "url": "https://fxrscout.example.com/",
+        "applicationCategory": "FinanceApplication",
+        "operatingSystem": "All",
+        "browserRequirements": "Requires JavaScript. Requires HTML5.",
+        "offers": {
+          "@type": "Offer",
+          "price": "0.00",
+          "priceCurrency": "USD"
+        }
+      }
+    </script>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-5G2BCL9T');</script>
+    <!-- End Google Tag Manager -->
   </head>
   <body class="antialiased min-h-screen bg-background text-foreground">
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5G2BCL9T"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
