@@ -1595,8 +1595,8 @@ function App() {
 
                   {/* Selection Toggles Row */}
                   <div className="flex flex-wrap items-center justify-between gap-3 mb-6 p-3 rounded-xl bg-zinc-50 dark:bg-zinc-900/40 border border-zinc-200 dark:border-zinc-800/80 text-xs">
-                    <div className="flex items-center gap-2">
-                      <span className="text-muted-foreground font-semibold text-[10px] uppercase tracking-wider" id="compare-targets-label">
+                    <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2.5 w-full sm:w-auto">
+                      <span className="text-muted-foreground font-semibold text-[10px] uppercase tracking-wider shrink-0" id="compare-targets-label">
                         Compare Targets:
                       </span>
                       <div className="flex flex-wrap items-center gap-2" role="group" aria-labelledby="compare-targets-label">
