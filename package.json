@@ -8,7 +8,8 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "scrape": "node scraper.js"
+    "scrape": "node scraper.js",
+    "sync-data": "node sync-data.js"
   },
   "dependencies": {
     "@fontsource-variable/inter": "^5.2.8",
