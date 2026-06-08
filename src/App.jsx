@@ -770,10 +770,46 @@ function App() {
       return entry;
     });
 
+    // 4. Summarized aggregated overview stats
+    let totalSpreads = 0;
+    let spreadCount = 0;
+    spreadsRank.forEach(item => {
+      if (item.avgSpread !== null) {
+        totalSpreads += item.avgSpread;
+        spreadCount++;
+      }
+    });
+    const marketAvgSpread = spreadCount > 0 ? totalSpreads / spreadCount : null;
+
+    let totalVariance = 0;
+    let varianceCount = 0;
+    volatilityReport.forEach(item => {
+      if (item.range !== null) {
+        totalVariance += item.range;
+        varianceCount++;
+      }
+    });
+    const marketVolatilityIndex = varianceCount > 0 ? totalVariance / varianceCount : null;
+
+    let sumDeviation = 0;
+    let deviationCount = 0;
+    dailyBenchmarksWalk.forEach(day => {
+      if (day.banksAvg !== null && day.google !== null) {
+        sumDeviation += (day.banksAvg - day.google);
+        deviationCount++;
+      }
+    });
+    const avgGoogleDeviation = deviationCount > 0 ? sumDeviation / deviationCount : null;
+
     return {
       spreadsRank,
       volatilityReport,
-      dailyBenchmarksWalk
+      dailyBenchmarksWalk,
+      summary: {
+        marketAvgSpread,
+        marketVolatilityIndex,
+        avgGoogleDeviation
+      }
     };
   }, [data, filteredChartData, activeCurrency]);
 
@@ -1990,6 +2026,33 @@ function App() {
                         {r.label}
                       </button>
                     ))}
+                  </div>
+                </div>
+
+                {/* Summary Key Statistics Row */}
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+                  <div className="theme-panel p-4 rounded-2xl bg-card text-card-foreground">
+                    <span className="text-muted-foreground font-semibold text-[10px] tracking-wider uppercase block">Overall Market Average Spread</span>
+                    <span className="text-xl font-extrabold text-spread mt-1 block" style={{ fontFamily: 'Outfit' }}>
+                      {reportsData.summary.marketAvgSpread !== null ? formatLKR(reportsData.summary.marketAvgSpread) : 'N/A'}
+                    </span>
+                    <span className="text-[9px] text-muted-foreground mt-0.5 block">Across all active commercial institutions</span>
+                  </div>
+
+                  <div className="theme-panel p-4 rounded-2xl bg-card text-card-foreground">
+                    <span className="text-muted-foreground font-semibold text-[10px] tracking-wider uppercase block">General Volatility Index</span>
+                    <span className="text-xl font-extrabold text-foreground mt-1 block" style={{ fontFamily: 'Outfit' }}>
+                      {reportsData.summary.marketVolatilityIndex !== null ? `${reportsData.summary.marketVolatilityIndex.toFixed(2)} LKR` : 'N/A'}
+                    </span>
+                    <span className="text-[9px] text-muted-foreground mt-0.5 block">Average buy rate variance over active window</span>
+                  </div>
+
+                  <div className="theme-panel p-4 rounded-2xl bg-card text-card-foreground">
+                    <span className="text-muted-foreground font-semibold text-[10px] tracking-wider uppercase block">Average Dev vs Google Rate</span>
+                    <span className="text-xl font-extrabold text-buy mt-1 block" style={{ fontFamily: 'Outfit' }}>
+                      {reportsData.summary.avgGoogleDeviation !== null ? `+${reportsData.summary.avgGoogleDeviation.toFixed(2)} LKR` : 'N/A'}
+                    </span>
+                    <span className="text-[9px] text-muted-foreground mt-0.5 block">Average spread offset above interbank rate</span>
                   </div>
                 </div>
 
