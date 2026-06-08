@@ -1763,12 +1763,12 @@ function App() {
                   </div>
 
                   {/* Selection Toggles Row */}
-                  <div className="flex flex-wrap items-center justify-between gap-3 mb-6 p-3 rounded-xl bg-zinc-50 dark:bg-zinc-900/40 border border-zinc-200 dark:border-zinc-800/80 text-xs">
-                    <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2.5 w-full sm:w-auto">
+                  <div className="flex flex-col gap-3 mb-6 p-3 rounded-xl bg-zinc-50 dark:bg-zinc-900/40 border border-zinc-200 dark:border-zinc-800/80 text-xs">
+                    <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2.5 w-full">
                       <span className="text-muted-foreground font-semibold text-[10px] uppercase tracking-wider shrink-0" id="compare-targets-label">
                         Compare Targets:
                       </span>
-                      <div className="flex flex-wrap items-center gap-2" role="group" aria-labelledby="compare-targets-label">
+                      <div className="flex w-full overflow-x-auto pb-1 sm:pb-0 gap-2 no-scrollbar" role="group" aria-labelledby="compare-targets-label">
                         {Object.keys(bankNames).map((bk) => {
                           const isChecked = selectedCompareBanks.includes(bk);
                           return (
@@ -1817,7 +1817,9 @@ function App() {
                         })}
                       </div>
                     </div>
-                    <div className="text-[10px] text-muted-foreground font-medium hidden sm:block">Toggle pills to filter comparative chart lines and side-by-side matrices.</div>
+                    <div className="text-[10px] text-muted-foreground font-semibold border-t border-border/40 pt-2 w-full flex justify-between items-center sm:justify-start">
+                      <span>Toggle pills to filter comparative chart lines and side-by-side matrices.</span>
+                    </div>
                   </div>
 
                   {/* Comparative Chart Container */}
