@@ -1,9 +1,6 @@
 name: Daily Exchange Rate Scrape
 
 on:
-  schedule:
-    # Run daily at 7:37 AM UTC (1:07 PM Sri Lanka Time)
-    - cron: '37 7 * * *'
   workflow_dispatch:
     # Allow manual triggers from the Actions tab
 
