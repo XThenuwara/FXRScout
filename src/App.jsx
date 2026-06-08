@@ -2091,8 +2091,16 @@ function App() {
                             {reportsData.volatilityReport.map((item, idx) => (
                               <div key={item.key} className="p-3 rounded-xl bg-zinc-100/60 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 text-[11px]">
                                 <div className="flex justify-between items-center mb-1.5">
-                                  <span className="font-bold text-foreground flex items-center gap-1.5">
-                                    <span className="w-2 h-2 rounded-full" style={{ backgroundColor: getBankColor(item.key) }}></span>
+                                  <span className="font-bold text-foreground flex items-center gap-2">
+                                    {bankLogos[item.key] ? (
+                                      <img 
+                                        src={bankLogos[item.key]} 
+                                        alt="" 
+                                        className="w-5 h-5 rounded object-contain bg-white p-0.5 border border-border shrink-0" 
+                                      />
+                                    ) : (
+                                      <span className="w-2 h-2 rounded-full" style={{ backgroundColor: getBankColor(item.key) }}></span>
+                                    )}
                                     {item.name}
                                   </span>
                                   <span className="font-mono font-extrabold text-foreground">Variance: {item.range.toFixed(2)} LKR</span>
