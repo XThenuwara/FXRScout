@@ -8697,7 +8697,7 @@
     }
   },
   {
-    "timestamp": "2026-06-12T07:30:32.053Z",
+    "timestamp": "2026-06-12T08:56:57.131Z",
     "google": {
       "USD": 330.83,
       "EUR": 382.13,
@@ -8761,23 +8761,56 @@
       "NZD": null
     },
     "combank": {
-      "USD": null,
-      "EUR": null,
-      "GBP": null,
-      "JPY": null,
-      "SGD": null,
-      "AUD": null,
-      "CHF": null,
+      "USD": {
+        "buy": 332,
+        "sell": 341
+      },
+      "EUR": {
+        "buy": 382.38,
+        "sell": 396.16
+      },
+      "GBP": {
+        "buy": 443.5,
+        "sell": 458.93
+      },
+      "JPY": {
+        "buy": 2.0651,
+        "sell": 2.1344
+      },
+      "SGD": {
+        "buy": 254.45,
+        "sell": 269.61
+      },
+      "AUD": {
+        "buy": 230.31,
+        "sell": 243.37
+      },
+      "CHF": {
+        "buy": 411.99,
+        "sell": 433.93
+      },
       "KWD": null,
       "OMR": null,
       "SAR": null,
-      "AED": null,
+      "AED": {
+        "buy": 88.46,
+        "sell": 94.91
+      },
       "QAR": null,
       "JOD": null,
       "BHD": null,
-      "INR": null,
-      "CAD": null,
-      "NZD": null
+      "INR": {
+        "buy": 3.36,
+        "sell": 3.68
+      },
+      "CAD": {
+        "buy": 236.68,
+        "sell": 244.84
+      },
+      "NZD": {
+        "buy": 191.51,
+        "sell": 200.12
+      }
     },
     "sampath": {
       "USD": {
