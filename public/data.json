@@ -9283,7 +9283,7 @@
     }
   },
   {
-    "timestamp": "2026-06-13T07:30:26.981Z",
+    "timestamp": "2026-06-13T08:38:49.309Z",
     "google": {
       "USD": 332.42,
       "EUR": 384.57,
@@ -9763,12 +9763,24 @@
       "NZD": null
     },
     "nsb": {
-      "USD": null,
-      "EUR": null,
-      "GBP": null,
+      "USD": {
+        "buy": 331,
+        "sell": 341
+      },
+      "EUR": {
+        "buy": 380.88,
+        "sell": 396.48
+      },
+      "GBP": {
+        "buy": 441.75,
+        "sell": 459.23
+      },
       "JPY": null,
       "SGD": null,
-      "AUD": null,
+      "AUD": {
+        "buy": 230.41,
+        "sell": 242.35
+      },
       "CHF": null,
       "KWD": null,
       "OMR": null,
