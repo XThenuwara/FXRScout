@@ -19138,5 +19138,591 @@
         "sell": 194.11
       }
     }
+  },
+  {
+    "timestamp": "2026-06-30T07:31:15.098Z",
+    "google": {
+      "USD": 335.98,
+      "EUR": 383.55,
+      "GBP": 444.95,
+      "JPY": 2.08,
+      "SGD": 259.85,
+      "AUD": 231.42,
+      "CHF": 415.76,
+      "KWD": 1086.4,
+      "OMR": 873.83,
+      "SAR": 89.6,
+      "AED": 91.49,
+      "QAR": 92.3,
+      "JOD": 473.89,
+      "BHD": 893.58,
+      "INR": 3.55,
+      "CAD": 236.53,
+      "NZD": 189.87
+    },
+    "cbsl": {
+      "USD": {
+        "buy": 331.6619,
+        "sell": 341.3051
+      },
+      "EUR": {
+        "buy": 376.7291,
+        "sell": 390.618
+      },
+      "GBP": {
+        "buy": 437.8138,
+        "sell": 452.9823
+      },
+      "JPY": {
+        "buy": 2.0384,
+        "sell": 2.1149
+      },
+      "SGD": {
+        "buy": 254.7045,
+        "sell": 265.5226
+      },
+      "AUD": {
+        "buy": 225.3512,
+        "sell": 236.7778
+      },
+      "CHF": {
+        "buy": 407.3959,
+        "sell": 424.8965
+      },
+      "KWD": null,
+      "OMR": null,
+      "SAR": null,
+      "AED": null,
+      "QAR": null,
+      "JOD": null,
+      "BHD": null,
+      "INR": null,
+      "CAD": {
+        "buy": 231.8723,
+        "sell": 240.9183
+      },
+      "NZD": null
+    },
+    "combank": {
+      "USD": {
+        "buy": 332.5,
+        "sell": 340.5
+      },
+      "EUR": {
+        "buy": 377.49,
+        "sell": 389.97
+      },
+      "GBP": {
+        "buy": 438.4,
+        "sell": 452.35
+      },
+      "JPY": {
+        "buy": 2.0442,
+        "sell": 2.1063
+      },
+      "SGD": {
+        "buy": 253.09,
+        "sell": 267.32
+      },
+      "AUD": {
+        "buy": 224.99,
+        "sell": 237.21
+      },
+      "CHF": {
+        "buy": 406.06,
+        "sell": 426.24
+      },
+      "KWD": null,
+      "OMR": null,
+      "SAR": null,
+      "AED": {
+        "buy": 88.6,
+        "sell": 94.77
+      },
+      "QAR": null,
+      "JOD": null,
+      "BHD": null,
+      "INR": {
+        "buy": 3.41,
+        "sell": 3.72
+      },
+      "CAD": {
+        "buy": 232.83,
+        "sell": 240.12
+      },
+      "NZD": {
+        "buy": 185.98,
+        "sell": 193.86
+      }
+    },
+    "sampath": {
+      "USD": {
+        "buy": 332,
+        "sell": 341
+      },
+      "EUR": {
+        "buy": 376.2837,
+        "sell": 391.2391
+      },
+      "GBP": {
+        "buy": 437.8126,
+        "sell": 453.0375
+      },
+      "JPY": {
+        "buy": 2.0349,
+        "sell": 2.1163
+      },
+      "SGD": {
+        "buy": 255.0087,
+        "sell": 265.2247
+      },
+      "AUD": {
+        "buy": 225.8401,
+        "sell": 236.2417
+      },
+      "CHF": {
+        "buy": 407.8549,
+        "sell": 424.1906
+      },
+      "KWD": null,
+      "OMR": null,
+      "SAR": null,
+      "AED": {
+        "buy": 89.8394,
+        "sell": 93.4046
+      },
+      "QAR": null,
+      "JOD": null,
+      "BHD": null,
+      "INR": {
+        "buy": 3.4897,
+        "sell": 3.6286
+      },
+      "CAD": {
+        "buy": 231.8078,
+        "sell": 241.0703
+      },
+      "NZD": {
+        "buy": 186.1631,
+        "sell": 193.6444
+      }
+    },
+    "hnb": {
+      "USD": {
+        "buy": 332.5,
+        "sell": 340.75
+      },
+      "EUR": {
+        "buy": 378.111,
+        "sell": 389.2634
+      },
+      "GBP": {
+        "buy": 439.5914,
+        "sell": 451.4233
+      },
+      "JPY": {
+        "buy": 2.0477,
+        "sell": 2.1049
+      },
+      "SGD": {
+        "buy": 256.0263,
+        "sell": 264.3603
+      },
+      "AUD": {
+        "buy": 227.1419,
+        "sell": 235.3809
+      },
+      "CHF": {
+        "buy": 408.697,
+        "sell": 422.5121
+      },
+      "KWD": null,
+      "OMR": null,
+      "SAR": null,
+      "AED": {
+        "buy": 90.0195,
+        "sell": 93.3525
+      },
+      "QAR": null,
+      "JOD": null,
+      "BHD": null,
+      "INR": {
+        "buy": 3.399,
+        "sell": 3.762
+      },
+      "CAD": {
+        "buy": 232.9722,
+        "sell": 240.1978
+      },
+      "NZD": {
+        "buy": 186.4879,
+        "sell": 193.8964
+      }
+    },
+    "peoples": {
+      "USD": {
+        "buy": 330.3349,
+        "sell": 340.2497
+      },
+      "EUR": {
+        "buy": 375.9714,
+        "sell": 388.8963
+      },
+      "GBP": {
+        "buy": 437.9274,
+        "sell": 451.3974
+      },
+      "JPY": {
+        "buy": 2.0422,
+        "sell": 2.1117
+      },
+      "SGD": {
+        "buy": 256.7479,
+        "sell": 264.284
+      },
+      "AUD": {
+        "buy": 224.2462,
+        "sell": 236.4124
+      },
+      "CHF": {
+        "buy": 409.6653,
+        "sell": 421.7204
+      },
+      "KWD": {
+        "buy": 1080.8331,
+        "sell": 1102.6681
+      },
+      "OMR": {
+        "buy": 864.4194,
+        "sell": 881.8824
+      },
+      "SAR": {
+        "buy": 88.6184,
+        "sell": 90.4086
+      },
+      "AED": {
+        "buy": 90.6114,
+        "sell": 92.4419
+      },
+      "QAR": {
+        "buy": 91.2987,
+        "sell": 93.1432
+      },
+      "JOD": {
+        "buy": 469.3773,
+        "sell": 478.8597
+      },
+      "BHD": {
+        "buy": 882.7632,
+        "sell": 900.5968
+      },
+      "INR": {
+        "buy": 3.4676,
+        "sell": 3.6034
+      },
+      "CAD": {
+        "buy": 232.463,
+        "sell": 240.0228
+      },
+      "NZD": {
+        "buy": 186.4524,
+        "sell": 193.0945
+      }
+    },
+    "seylan": {
+      "USD": {
+        "buy": 332.5,
+        "sell": 340.5
+      },
+      "EUR": {
+        "buy": 375.1937,
+        "sell": 392.3268
+      },
+      "GBP": {
+        "buy": 435.5644,
+        "sell": 455.399
+      },
+      "JPY": {
+        "buy": 2.0239,
+        "sell": 2.1264
+      },
+      "SGD": {
+        "buy": 251.6411,
+        "sell": 268.4211
+      },
+      "AUD": {
+        "buy": 224.3647,
+        "sell": 238.2943
+      },
+      "CHF": {
+        "buy": 402.2343,
+        "sell": 429.2547
+      },
+      "KWD": null,
+      "OMR": null,
+      "SAR": {
+        "buy": 83.7167,
+        "sell": 93.835
+      },
+      "AED": {
+        "buy": 85.1294,
+        "sell": 97.3516
+      },
+      "QAR": null,
+      "JOD": null,
+      "BHD": null,
+      "INR": {
+        "buy": 3.2003,
+        "sell": 3.9262
+      },
+      "CAD": {
+        "buy": 229.9786,
+        "sell": 242.8554
+      },
+      "NZD": {
+        "buy": 182.5669,
+        "sell": 197.8829
+      }
+    },
+    "union": {
+      "USD": null,
+      "EUR": null,
+      "GBP": null,
+      "JPY": null,
+      "SGD": null,
+      "AUD": null,
+      "CHF": null,
+      "KWD": null,
+      "OMR": null,
+      "SAR": null,
+      "AED": null,
+      "QAR": null,
+      "JOD": null,
+      "BHD": null,
+      "INR": null,
+      "CAD": null,
+      "NZD": null
+    },
+    "amana": {
+      "USD": {
+        "buy": 331.75,
+        "sell": 341.75
+      },
+      "EUR": {
+        "buy": 376.61,
+        "sell": 391.38
+      },
+      "GBP": {
+        "buy": 438.89,
+        "sell": 452.92
+      },
+      "JPY": {
+        "buy": 2.026,
+        "sell": 2.1261
+      },
+      "SGD": {
+        "buy": 255.06,
+        "sell": 265.28
+      },
+      "AUD": {
+        "buy": 225.78,
+        "sell": 237.52
+      },
+      "CHF": {
+        "buy": 411.86,
+        "sell": 421.01
+      },
+      "KWD": {
+        "buy": 1083.82,
+        "sell": 1103.58
+      },
+      "OMR": {
+        "buy": 866.95,
+        "sell": 882.47
+      },
+      "SAR": {
+        "buy": 88.67,
+        "sell": 90.67
+      },
+      "AED": {
+        "buy": 90.69,
+        "sell": 92.69
+      },
+      "QAR": {
+        "buy": 91.63,
+        "sell": 93.14
+      },
+      "JOD": {
+        "buy": 442.85,
+        "sell": 507.09
+      },
+      "BHD": {
+        "buy": 885.37,
+        "sell": 901.08
+      },
+      "INR": {
+        "buy": 3.4684,
+        "sell": 3.6488
+      },
+      "CAD": {
+        "buy": 234.33,
+        "sell": 239.01
+      },
+      "NZD": {
+        "buy": 187.41,
+        "sell": 193.42
+      }
+    },
+    "dfcc": {
+      "USD": {
+        "buy": 331.25,
+        "sell": 340.75
+      },
+      "EUR": {
+        "buy": 377.02,
+        "sell": 389.02
+      },
+      "GBP": {
+        "buy": 438.65,
+        "sell": 450.55
+      },
+      "JPY": {
+        "buy": 2.0311,
+        "sell": 2.1111
+      },
+      "SGD": {
+        "buy": 253.67,
+        "sell": 265.67
+      },
+      "AUD": {
+        "buy": 225.76,
+        "sell": 235.76
+      },
+      "CHF": {
+        "buy": 407.85,
+        "sell": 422.85
+      },
+      "KWD": null,
+      "OMR": null,
+      "SAR": null,
+      "AED": null,
+      "QAR": null,
+      "JOD": null,
+      "BHD": null,
+      "INR": {
+        "buy": 3.3,
+        "sell": 3.8
+      },
+      "CAD": {
+        "buy": 232.09,
+        "sell": 240.09
+      },
+      "NZD": null
+    },
+    "nsb": {
+      "USD": {
+        "buy": 332.5,
+        "sell": 340.5
+      },
+      "EUR": {
+        "buy": 377.18,
+        "sell": 390.35
+      },
+      "GBP": {
+        "buy": 438.1,
+        "sell": 452.76
+      },
+      "JPY": null,
+      "SGD": null,
+      "AUD": {
+        "buy": 225.86,
+        "sell": 236.27
+      },
+      "CHF": null,
+      "KWD": null,
+      "OMR": null,
+      "SAR": null,
+      "AED": null,
+      "QAR": null,
+      "JOD": null,
+      "BHD": null,
+      "INR": null,
+      "CAD": null,
+      "NZD": null
+    },
+    "pabc": {
+      "USD": null,
+      "EUR": null,
+      "GBP": null,
+      "JPY": null,
+      "SGD": null,
+      "AUD": null,
+      "CHF": null,
+      "KWD": null,
+      "OMR": null,
+      "SAR": null,
+      "AED": null,
+      "QAR": null,
+      "JOD": null,
+      "BHD": null,
+      "INR": null,
+      "CAD": null,
+      "NZD": null
+    },
+    "ndb": {
+      "USD": {
+        "buy": 331.75,
+        "sell": 340.75
+      },
+      "EUR": {
+        "buy": 376.46,
+        "sell": 390.08
+      },
+      "GBP": {
+        "buy": 437.3,
+        "sell": 452.57
+      },
+      "JPY": {
+        "buy": 2.0365,
+        "sell": 2.1111
+      },
+      "SGD": {
+        "buy": 254.4,
+        "sell": 265.37
+      },
+      "AUD": {
+        "buy": 224.53,
+        "sell": 237.43
+      },
+      "CHF": {
+        "buy": 407.48,
+        "sell": 423.74
+      },
+      "KWD": null,
+      "OMR": null,
+      "SAR": {
+        "buy": 86.07,
+        "sell": 93.25
+      },
+      "AED": {
+        "buy": 89.11,
+        "sell": 94.05
+      },
+      "QAR": null,
+      "JOD": null,
+      "BHD": null,
+      "INR": {
+        "buy": 3.5,
+        "sell": 3.61
+      },
+      "CAD": {
+        "buy": 231.45,
+        "sell": 241.09
+      },
+      "NZD": {
+        "buy": 185.65,
+        "sell": 194.09
+      }
+    }
   }
 ]
